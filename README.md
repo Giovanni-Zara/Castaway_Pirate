@@ -2,7 +2,7 @@
 
 An immersive 3D platformer adventure game built with Three.js, where you play as a pirate Captain  navigating treacherous waters to reach your pirate ship.
 
-![Game Screenshot](images\game_snapshot.png) 
+![Game Screenshot](images/game_snapshot.png) 
 
 ## 🎮 Game Overview
 
