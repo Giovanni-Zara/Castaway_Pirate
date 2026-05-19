@@ -107,4 +107,4 @@ cd castaway_pirate
 # Serve locally (Python)
 python -m http.server 8000
 ```
-👉 [**OR PLAY THE GAME LIVE IN YOUR BROWSER HERE!**](https://yourusername.github.io/castaway_pirate)
+👉 [**OR PLAY THE GAME LIVE IN YOUR BROWSER HERE!**](https://Giovanni-Zara.github.io/castaway_pirate)
