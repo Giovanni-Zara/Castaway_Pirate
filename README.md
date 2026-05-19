@@ -106,6 +106,5 @@ cd castaway_pirate
 
 # Serve locally (Python)
 python -m http.server 8000
-
-# Or use Live Server in VS Code
-# Right-click [index.html](http://_vscodecontentref_/0) → "Open with Live Server"
+```
+👉 [**OR PLAY THE GAME LIVE IN YOUR BROWSER HERE!**](https://yourusername.github.io/castaway_pirate)
