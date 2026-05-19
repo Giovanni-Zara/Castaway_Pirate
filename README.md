@@ -2,6 +2,8 @@
 
 An immersive 3D platformer adventure game built with Three.js, where you play as a pirate Captain  navigating treacherous waters to reach your pirate ship.
 
+👉 [**PLAY THE GAME LIVE IN YOUR BROWSER HERE!**](https://giovanni-zara.github.io/Castaway_Pirate/))
+
 ![Game Screenshot](images/game_snapshot.png) 
 
 ## 🎮 Game Overview
@@ -107,4 +109,3 @@ cd castaway_pirate
 # Serve locally (Python)
 python -m http.server 8000
 ```
-👉 [**OR PLAY THE GAME LIVE IN YOUR BROWSER HERE!**](https://Giovanni-Zara.github.io/castaway_pirate)
