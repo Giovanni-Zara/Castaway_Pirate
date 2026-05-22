@@ -266,13 +266,15 @@ export class Environment {
             const sinkingData = {
                 isSinking: false,
                 sinkStartTime: 0,
-                sinkDuration: 2.0,
+                sinkDuration: 4.5,
                 playerOnTime: 0,
                 triggerDelay: 3.5,
                 originalY: base,
                 targetY: this.WATER_LEVEL - 2, //idc where, as long as it below water level
                 hasPlayerOnIt: false,
                 fullySubmerged: false,
+                tiltDirection: Math.random() < 0.5 ? 1 : -1, //which end dips first
+                maxTilt: 0.2 + Math.random() * 0.15, //final tilt angle in radians, ~11-20 degrees
                 bubbleEffects: []
             };
 
@@ -381,21 +383,20 @@ export class Environment {
                 const bobbing = Math.sin(time * floatingData.frequency + floatingData.phase) * floatingData.amplitude;
                 rock.position.y = floatingData.originalY + bobbing;
 
-                //some tilting motion - rock
+                //some tilting motion
                 const tiltX = Math.sin(time * floatingData.frequency + floatingData.phase) * floatingData.amplitude;
                 const tiltZ = Math.cos(time * floatingData.frequency + floatingData.phase) * floatingData.tiltAmplitude;
-                rock.rotation.x = tiltX;
-                rock.rotation.z = tiltZ;
-
-                //bounds
-                if (platform.type !== 'sinkingLog') {
-                    platform.bounds.y = rock.position.y + 0.5;
-                }
 
                 if (platform.type === 'sinkingLog') {
+                    //logs lie horizontal (z = PI/2); apply tilt as a small offset, don't overwrite the base
+                    rock.rotation.x = tiltX * 0.3;
+                    rock.rotation.z = Math.PI / 2 + tiltZ * 0.5;
                     platform.bounds.y = rock.position.y + platform.size;
+                } else {
+                    rock.rotation.x = tiltX;
+                    rock.rotation.z = tiltZ;
+                    platform.bounds.y = rock.position.y + 0.5;
                 }
-
             }
 
             //sinking animation for logs
@@ -409,26 +410,30 @@ export class Environment {
         const sinkingData = platform.sinkingData;
         const mesh = platform.mesh;
 
-        if (sinkingData.isSinking) {    //sinking trigger expired, log starts sinking
-            const sinkProgress = (time - sinkingData.sinkStartTime) / sinkingData.sinkDuration; //value from 0 (just started) to 1 (fully submerged)
+        if (sinkingData.isSinking) {
+            // sinkStartTime is set in checkSinkingLogCollision using performance.now() — match that here
+            const now = performance.now() * 0.001;
+            const sinkProgress = Math.min((now - sinkingData.sinkStartTime) / sinkingData.sinkDuration, 1.0);
 
-            if (sinkProgress < 1.0) {   // sink it
-                const easedProgress = this.easeInQuad(sinkProgress);    //just t*t, seen online that this is the common standard. tried a lot of temporal laws for interpolation. this is the best so far
-                const currentY = THREE.MathUtils.lerp(sinkingData.originalY, sinkingData.targetY, 0.75);    //static factor, works better than the dynamic. that depends on game time, it is difficult to fix
+            if (sinkProgress < 1.0) {
+                const easedProgress = this.easeInQuad(sinkProgress); //slow start, accelerates as the log fills with water
+                const currentY = THREE.MathUtils.lerp(sinkingData.originalY, sinkingData.targetY, easedProgress);
                 mesh.position.y = currentY;
 
-                const sinkRotation = easedProgress * Math.PI * 0.3; //a bit of rotation while sinking
-                mesh.rotation.x = sinkRotation * 0.3;
-                mesh.rotation.z = sinkRotation * 0.2;
+                // gentle waterlog tilt: one end dips down progressively, log stays mostly horizontal
+                // base orientation is z = PI/2 (lying flat); add a small offset on z to tip one end
+                const tilt = easedProgress * sinkingData.maxTilt * sinkingData.tiltDirection;
+                mesh.rotation.x = 0;
+                mesh.rotation.z = Math.PI / 2 + tilt;
 
-                if (Math.floor(time * 10) % 5 === 0 && Math.random() < 0.3) {    //periodic bubbles, basically around 30% chance
-                    this.createBubbleEffect(mesh.position); //at log location
-                    //console.log('bubble');
+                if (Math.floor(now * 10) % 5 === 0 && Math.random() < 0.3) {
+                    this.createBubbleEffect(mesh.position);
                 }
-                platform.bounds.y = currentY - 2; //update, prolly useless. consistency
-            } else {    //if fully sunk
+                platform.bounds.y = currentY - 2;
+            } else {
                 mesh.position.y = sinkingData.targetY;
-                platform.bounds.y = sinkingData.targetY - 3; //way below collision detection
+                mesh.rotation.z = Math.PI / 2 + sinkingData.maxTilt * sinkingData.tiltDirection;
+                platform.bounds.y = sinkingData.targetY - 3;
                 sinkingData.fullySubmerged = true;
             }
         }
