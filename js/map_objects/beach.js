@@ -16,7 +16,7 @@ export class Beach {
         const geom = new THREE.PlaneGeometry(this.width, this.depth);
         // Visible material (simple color to verify)
         const mat = await createMaterial(
-            '../images/beach_texture.jpg',
+            'images/beach_texture.jpg',
             0xE4C07A,   // sandy color fallback
             { repeatX: 6, repeatY: 6 }  
         );

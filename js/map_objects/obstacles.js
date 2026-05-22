@@ -49,7 +49,7 @@ export class Obstacles {
         return new Promise((resolve, reject) => {
             // First load the MTL file
             this.mtlLoader.load(
-                '../objects/crab/crab.mtl', // Path to the MTL file
+                'objects/crab/crab.mtl', // Path to the MTL file
                 (materials) => {
                     materials.preload();
                     
@@ -58,7 +58,7 @@ export class Obstacles {
                     
                     // Now load the OBJ file with materials
                     this.objLoader.load(
-                        '../objects/crab/crab.obj',
+                        'objects/crab/crab.obj',
                         (object) => {
                             // Configure the loaded model
                             object.traverse((child) => {
@@ -237,7 +237,7 @@ export class Obstacles {
     async loadDolphinModel() {
         return new Promise((resolve, reject) => {
             this.fbxLoader.load(
-                '../objects/Dolphin.fbx',
+                'objects/Dolphin.fbx',
                 (object) => {
                     // const dolphinMaterial = await this.createDolphinMaterial();
                     object.traverse((child) => {

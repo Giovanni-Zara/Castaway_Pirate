@@ -36,7 +36,7 @@ export class Forest {
         const floorGeometry = new THREE.PlaneGeometry(this.width, this.depth);
 
         const floorMaterial = await createMaterial(
-            '../images/forest_floor.jpg',
+            'images/forest_floor.jpg',
             0x2F4F2F, //green fallback
             {
                 repeatX: 3,
@@ -69,7 +69,7 @@ export class Forest {
         //pre load all the materials
         const trunkMaterial = {
             pine: await createMaterial(
-                '../images/pine_trunk.jpeg',
+                'images/pine_trunk.jpeg',
                 0x8B4513,   //simple brown fallback
                 {
                     repeatX: 1,
@@ -77,7 +77,7 @@ export class Forest {
                 }
             ),
             oak: await createMaterial(
-                '../images/oak_trunk.jpg',
+                'images/oak_trunk.jpg',
                 0x8B4513,   //simple brown fallback
                 {
                     repeatX: 1,
@@ -85,7 +85,7 @@ export class Forest {
                 }
             ),
             birch: await createMaterial(
-                '../images/birch_trunk.jpg',
+                'images/birch_trunk.jpg',
                 0xF5F5DC,   //simple beige fallback
                 {
                     repeatX: 1,
@@ -272,7 +272,7 @@ export class Forest {
     async createUndergrowth(platforms) {
         // Add bushes and small plants
         const bushMaterial = await createMaterial(
-            '../images/bush.jpg',
+            'images/bush.jpg',
             0x8B4513,   //simple brown fallback
             {
                 repeatX: 1,
@@ -281,7 +281,7 @@ export class Forest {
         );
 
         const rockMaterial = await createMaterial(
-            '../images/rock.jpg',
+            'images/rock.jpg',
             0x808080,   //simple gray fallback
             {
                 repeatX: 1,

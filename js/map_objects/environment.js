@@ -177,7 +177,7 @@ export class Environment {
         ]
         
         const rockMaterial = await createMaterial(
-            '../images/moss_rock.jpeg',
+            'images/moss_rock.jpeg',
             0x808080,   //simple gray fallback
             {
                 repeatX: 1,
@@ -186,7 +186,7 @@ export class Environment {
         );
 
         const logMaterial = await createMaterial(
-            '../images/oak_trunk.jpg',
+            'images/oak_trunk.jpg',
             0x8B4513,   //simple brown fallback
             {
                 repeatX: 1,

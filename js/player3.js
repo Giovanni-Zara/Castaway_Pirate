@@ -233,7 +233,7 @@ export class Pirate {
     async loadPirate() {
         return new Promise((resolve, reject) => {
             this.fbxLoader.load(
-                '../objects/pirate_7.4.fbx',
+                'objects/Pirate_7.4.fbx',
                 (object) => {
                     console.log('Pirate FBX loaded successfully');
                     this.setupPirateObject(object);
